@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: travelgentle
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  travel:
+    image: travel:1
+    environment:
+      POSTGRES_JDBC_URL: jdbc:postgresql://postgres:5432/travelgentle
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
